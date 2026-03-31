@@ -111,7 +111,7 @@ fun ActionLogPage(route: ActionLogRoute) {
                 )
             },
             title = {
-                val title = "触发记录"
+                val title = "Historial de activaciones"
                 val titleModifier = Modifier.noRippleClickable {
                     resetKey.intValue++
                 }
@@ -141,14 +141,14 @@ fun ActionLogPage(route: ActionLogRoute) {
                         imageVector = PerfIcon.Delete,
                         onClick = throttle(fn = mainVm.viewModelScope.launchAsFn {
                             val text = if (subsId != null) {
-                                "确定删除当前订阅所有触发记录?"
+                                "¿Confirmar eliminación de todos los registros de activación de la suscripción actual?"
                             } else if (appId != null) {
-                                "确定删除当前应用所有触发记录?"
+                                "¿Confirmar eliminación de todos los registros de activación de la aplicación actual?"
                             } else {
-                                "确定删除所有触发记录?"
+                                "¿Confirmar eliminación de todos los registros de activación?"
                             }
                             mainVm.dialogFlow.waitResult(
-                                title = "删除记录",
+                                title = "Eliminar registros",
                                 text = text,
                                 error = true,
                             )
@@ -159,7 +159,7 @@ fun ActionLogPage(route: ActionLogRoute) {
                             } else {
                                 DbSet.actionLogDao.deleteAll()
                             }
-                            toast("删除成功")
+                            toast("Eliminado correctamente")
                         })
                     )
                 }
@@ -193,7 +193,7 @@ fun ActionLogPage(route: ActionLogRoute) {
                 item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                     Spacer(modifier = Modifier.height(EmptyHeight))
                     if (list.itemCount == 0 && list.loadState.refresh !is LoadState.Loading) {
-                        EmptyText(text = "暂无数据")
+                        EmptyText(text = "Sin datos")
                     }
                 }
             }
@@ -398,7 +398,7 @@ private fun ActionLogDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             ItemText(
-                text = "查看规则",
+                text = "Ver regla",
                 onClick = {
                     onDismissRequest()
                     if (actionLog.groupType == SubsConfig.AppGroupType) {
@@ -435,7 +435,7 @@ private fun ActionLogDialog(
                 }
                 if (appChecked != null) {
                     ItemText(
-                        text = if (appChecked) "在此应用禁用" else "移除在此应用的禁用",
+                        text = if (appChecked) "Deshabilitar en esta aplicación" else "Quitar deshabilitación en esta aplicación",
                         onClick = vm.viewModelScope.launchAsFn {
                             val subsConfig = subsConfig ?: SubsConfig(
                                 type = SubsConfig.GlobalGroupType,
@@ -453,7 +453,7 @@ private fun ActionLogDialog(
                                     .stringify()
                             )
                             DbSet.subsConfigDao.insert(newSubsConfig)
-                            toast("更新成功")
+                            toast("Actualizado correctamente")
                         }
                     )
                     HorizontalDivider()
@@ -464,7 +464,7 @@ private fun ActionLogDialog(
                 val disabled =
                     oldExclude.activityIds.contains(actionLog.appId to actionLog.activityId)
                 ItemText(
-                    text = if (disabled) "移除在此页面的禁用" else "在此页面禁用",
+                    text = if (disabled) "Quitar deshabilitación en esta pantalla" else "Deshabilitar en esta pantalla",
                     onClick = vm.viewModelScope.launchAsFn {
                         val subsConfig = if (actionLog.groupType == SubsConfig.AppGroupType) {
                             subsConfig ?: SubsConfig(
@@ -489,7 +489,7 @@ private fun ActionLogDialog(
                                 .stringify()
                         )
                         DbSet.subsConfigDao.insert(newSubsConfig)
-                        toast("更新成功")
+                        toast("Actualizado correctamente")
                     }
                 )
                 HorizontalDivider()

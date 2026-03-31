@@ -88,8 +88,8 @@ fun BlockA11yAppListPage() {
         context.justHideSoftInput()
         if (vm.textChanged) {
             mainVm.dialogFlow.waitResult(
-                title = "提示",
-                text = "当前内容未保存，是否放弃编辑？",
+                title = "Aviso",
+                text = "El contenido actual no está guardado, ¿deseas descartar los cambios?",
             )
         }
         editable = false
@@ -107,8 +107,8 @@ fun BlockA11yAppListPage() {
                                 if (vm.textChanged) {
                                     context.justHideSoftInput()
                                     mainVm.dialogFlow.waitResult(
-                                        title = "提示",
-                                        text = "当前内容未保存，是否放弃编辑？",
+                                        title = "Aviso",
+                                        text = "El contenido actual no está guardado, ¿deseas descartar los cambios?",
                                     )
                                 }
                                 editable = !editable
@@ -134,7 +134,7 @@ fun BlockA11yAppListPage() {
                             onValueChange = { newValue ->
                                 vm.searchStrFlow.value = newValue.trim()
                             },
-                            hint = "请输入应用名称/ID",
+                            hint = "Ingresa el nombre o ID de la aplicación",
                             modifier = if (firstShowSearchBar) Modifier else Modifier.autoFocus(),
                         )
                     } else {
@@ -146,7 +146,7 @@ fun BlockA11yAppListPage() {
                             )
                         Text(
                             modifier = titleModifier,
-                            text = "无障碍白名单",
+                            text = "Lista blanca de accesibilidad",
                         )
                     }
                 },
@@ -161,9 +161,9 @@ fun BlockA11yAppListPage() {
                                     if (vm.textChanged) {
                                         blockA11yAppListFlow.value =
                                             AppListString.decode(vm.textFlow.value)
-                                        toast("更新成功")
+                                        toast("Actualizado correctamente")
                                     } else {
-                                        toast("未修改")
+                                        toast("Sin modificaciones")
                                     }
                                     context.justHideSoftInput()
                                     editable = false
@@ -174,8 +174,8 @@ fun BlockA11yAppListPage() {
                             Row {
                                 PerfIconButton(
                                     imageVector = if (store.blockA11yAppListFollowMatch) PerfIcon.Lock else LockOpenRight,
-                                    contentDescription = if (store.blockA11yAppListFollowMatch) "已设置为跟随应用白名单" else "已设置为独立无障碍白名单",
-                                    onClickLabel = "切换模式",
+                                    contentDescription = if (store.blockA11yAppListFollowMatch) "Configurado para seguir la lista blanca de aplicaciones" else "Configurado como lista blanca de accesibilidad independiente",
+                                    onClickLabel = "Cambiar modo",
                                     onClick = throttle {
                                         showSearchBar = false
                                         storeFlow.update { it.copy(blockA11yAppListFollowMatch = !it.blockA11yAppListFollowMatch) }
@@ -214,7 +214,7 @@ fun BlockA11yAppListPage() {
                                         expanded = expanded,
                                         onDismissRequest = { expanded = false }
                                     ) {
-                                        MenuGroupCard(inTop = true, title = "排序") {
+                                        MenuGroupCard(inTop = true, title = "Ordenar") {
                                             var sortType by vm.sortTypeFlow.asMutableState()
                                             AppSortOption.objects.forEach { option ->
                                                 MenuItemRadioButton(
@@ -224,7 +224,7 @@ fun BlockA11yAppListPage() {
                                                 )
                                             }
                                         }
-                                        MenuGroupCard(inTop = true, title = "筛选") {
+                                        MenuGroupCard(inTop = true, title = "Filtrar") {
                                             var appGroupType by vm.appGroupTypeFlow.asMutableState()
                                             AppGroupOption.normalObjects.forEach { option ->
                                                 val newValue = option.invert(appGroupType)
@@ -246,12 +246,12 @@ fun BlockA11yAppListPage() {
         floatingActionButton = {
             AnimationFloatingActionButton(
                 visible = !editable && scrollBehavior.isFullVisible && !store.blockA11yAppListFollowMatch,
-                onClickLabel = "进入白名单文本编辑模式",
+                onClickLabel = "Entrar en modo de edición de texto de lista blanca",
                 onClick = {
                     editable = !editable
                 },
                 imageVector = PerfIcon.Edit,
-                contentDescription = "编辑白名单文本"
+                contentDescription = "Editar texto de lista blanca"
             )
         },
     ) { contentPadding ->
@@ -261,7 +261,7 @@ fun BlockA11yAppListPage() {
             ) {
                 Spacer(modifier = Modifier.height(EmptyHeight))
                 Text(
-                    text = "已设置为跟随应用白名单",
+                    text = "Configurado para seguir la lista blanca de aplicaciones",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.tertiary,
@@ -272,7 +272,7 @@ fun BlockA11yAppListPage() {
                 modifier = Modifier.scaffoldPadding(contentPadding),
                 textFlow = vm.textFlow,
                 immediateFocus = true,
-                placeholderText = "请输入应用ID列表\n示例:\ncom.android.systemui\ncom.android.settings",
+                placeholderText = "Ingresa la lista de IDs de aplicaciones\nEjemplo:\ncom.android.systemui\ncom.android.settings",
                 indicatorSize = vm.indicatorSizeFlow.collectAsState().value,
             )
         } else {
@@ -295,7 +295,7 @@ fun BlockA11yAppListPage() {
                 item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                     Spacer(modifier = Modifier.height(EmptyHeight))
                     if (appInfos.isEmpty() && searchStr.isNotEmpty()) {
-                        EmptyText(text = "暂无搜索结果")
+                        EmptyText(text = "Sin resultados de búsqueda")
                         Spacer(modifier = Modifier.height(EmptyHeight / 2))
                     }
                 }

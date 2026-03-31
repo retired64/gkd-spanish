@@ -81,8 +81,8 @@ fun A11yScopeAppListPage() {
         context.justHideSoftInput()
         if (vm.textChanged) {
             mainVm.dialogFlow.waitResult(
-                title = "提示",
-                text = "当前内容未保存，是否放弃编辑？",
+                title = "Aviso",
+                text = "El contenido actual no está guardado, ¿deseas descartar los cambios?",
             )
         }
         editable = false
@@ -100,8 +100,8 @@ fun A11yScopeAppListPage() {
                                 if (vm.textChanged) {
                                     context.justHideSoftInput()
                                     mainVm.dialogFlow.waitResult(
-                                        title = "提示",
-                                        text = "当前内容未保存，是否放弃编辑？",
+                                        title = "Aviso",
+                                        text = "El contenido actual no está guardado, ¿deseas descartar los cambios?",
                                     )
                                 }
                                 editable = !editable
@@ -127,7 +127,7 @@ fun A11yScopeAppListPage() {
                             onValueChange = { newValue ->
                                 vm.searchStrFlow.value = newValue.trim()
                             },
-                            hint = "请输入应用名称/ID",
+                            hint = "Ingresa el nombre o ID de la aplicación",
                             modifier = if (firstShowSearchBar) Modifier else Modifier.autoFocus(),
                         )
                     } else {
@@ -139,7 +139,7 @@ fun A11yScopeAppListPage() {
                             )
                         Text(
                             modifier = titleModifier,
-                            text = "局部无障碍",
+                            text = "Accesibilidad local",
                         )
                     }
                 },
@@ -154,9 +154,9 @@ fun A11yScopeAppListPage() {
                                     if (vm.textChanged) {
                                         a11yScopeAppListFlow.value =
                                             AppListString.decode(vm.textFlow.value)
-                                        toast("更新成功")
+                                        toast("Actualizado correctamente")
                                     } else {
-                                        toast("未修改")
+                                        toast("Sin modificaciones")
                                     }
                                     context.justHideSoftInput()
                                     editable = false
@@ -192,7 +192,7 @@ fun A11yScopeAppListPage() {
                                         expanded = expanded,
                                         onDismissRequest = { expanded = false }
                                     ) {
-                                        MenuGroupCard(inTop = true, title = "排序") {
+                                        MenuGroupCard(inTop = true, title = "Ordenar") {
                                             var sortType by vm.sortTypeFlow.asMutableState()
                                             AppSortOption.objects.forEach { option ->
                                                 MenuItemRadioButton(
@@ -202,7 +202,7 @@ fun A11yScopeAppListPage() {
                                                 )
                                             }
                                         }
-                                        MenuGroupCard(inTop = true, title = "筛选") {
+                                        MenuGroupCard(inTop = true, title = "Filtrar") {
                                             var appGroupType by vm.appGroupTypeFlow.asMutableState()
                                             AppGroupOption.normalObjects.forEach { option ->
                                                 val newValue = option.invert(appGroupType)
@@ -224,12 +224,12 @@ fun A11yScopeAppListPage() {
         floatingActionButton = {
             AnimationFloatingActionButton(
                 visible = !editable && scrollBehavior.isFullVisible,
-                onClickLabel = "进入文本编辑模式",
+                onClickLabel = "Entrar en modo de edición de texto",
                 onClick = {
                     editable = !editable
                 },
                 imageVector = PerfIcon.Edit,
-                contentDescription = "编辑文本"
+                contentDescription = "Editar texto"
             )
         },
     ) { contentPadding ->
@@ -238,7 +238,7 @@ fun A11yScopeAppListPage() {
                 modifier = Modifier.scaffoldPadding(contentPadding),
                 textFlow = vm.textFlow,
                 immediateFocus = true,
-                placeholderText = "请输入应用ID列表\n示例:\ncom.android.systemui\ncom.android.settings",
+                placeholderText = "Ingresa la lista de IDs de aplicaciones\nEjemplo:\ncom.android.systemui\ncom.android.settings",
                 indicatorSize = vm.indicatorSizeFlow.collectAsState().value,
             )
         } else {
@@ -262,7 +262,7 @@ fun A11yScopeAppListPage() {
                 item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                     Spacer(modifier = Modifier.height(EmptyHeight))
                     if (appInfos.isEmpty() && searchStr.isNotEmpty()) {
-                        EmptyText(text = "暂无搜索结果")
+                        EmptyText(text = "Sin resultados de búsqueda")
                         Spacer(modifier = Modifier.height(EmptyHeight / 2))
                     }
                 }

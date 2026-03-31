@@ -68,7 +68,7 @@ fun AppOpsAllowPage() {
                 mainVm.popPage()
             })
         }, title = {
-            Text(text = "解除限制")
+            Text(text = "Eliminar restricciones")
         })
     }) { contentPadding ->
         Column(
@@ -84,7 +84,7 @@ fun AppOpsAllowPage() {
                         .fillMaxWidth(),
                 ) {
                     Text(
-                        text = "下列权限应默认授予，但可能因某些操作如系统升级，备份迁移等被限制",
+                        text = "Los siguientes permisos deberían otorgarse por defecto, pero pueden estar restringidos por operaciones como actualizaciones del sistema, copias de seguridad o migraciones",
                         style = MaterialTheme.typography.bodyMedium,
                     )
                     Spacer(modifier = Modifier.height(24.dp))
@@ -98,24 +98,24 @@ fun AppOpsAllowPage() {
                     AuthButtonGroup(
                         modifier = Modifier.fillMaxWidth(),
                         buttons = listOf(
-                            "Shizuku 授权" to vm.viewModelScope.launchAsFn(Dispatchers.IO) {
+                            "Autorizar con Shizuku" to vm.viewModelScope.launchAsFn(Dispatchers.IO) {
                                 mainVm.guardShizukuContext()
-                                toast("授权成功")
+                                toast("Autorización exitosa")
                             },
-                            "命令授权" to {
+                            "Autorizar por comando" to {
                                 vm.showCopyDlgFlow.value = true
                             },
-                            "卸载重装" to {
+                            "Desinstalar y reinstalar" to {
                                 mainVm.dialogFlow.updateDialogOptions(
-                                    title = "卸载重装",
-                                    text = "卸载后重新安装可让应用权限回归初始状态解除限制，先点击下方「导出应用」可将应用提前保存至下载，然后卸载应用，到文件管理中重新安装即可\n\n注意：卸载会删除所有数据，请自行备份数据",
-                                    dismissText = "导出应用",
+                                    title = "Desinstalar y reinstalar",
+                                    text = "Desinstalar y reinstalar la aplicación restaura los permisos a su estado inicial y elimina las restricciones. Primero haz clic en «Exportar aplicación» para guardarla en Descargas, luego desinstálala y reinstálala desde el gestor de archivos.\n\nAtención: la desinstalación eliminará todos los datos, haz una copia de seguridad antes de continuar",
+                                    dismissText = "Exportar aplicación",
                                     dismissAction = {
                                         mainVm.viewModelScope.launchTry(Dispatchers.IO) {
                                             context.saveFileToDownloads(getShareApkFile())
                                         }
                                     },
-                                    confirmText = "关闭",
+                                    confirmText = "Cerrar",
                                 )
                             }
                         )
@@ -125,7 +125,7 @@ fun AppOpsAllowPage() {
             Spacer(modifier = Modifier.height(EmptyHeight))
             if (!appOpsRestricted) {
                 Spacer(modifier = Modifier.height(EmptyHeight))
-                EmptyText(text = "状态正常, 无需操作")
+                EmptyText(text = "Estado normal, no se requiere ninguna acción")
             }
         }
     }

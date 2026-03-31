@@ -87,7 +87,7 @@ fun AuthA11yPage() {
                     mainVm.popPage()
                 })
         }, title = {
-            Text(text = "工作模式")
+            Text(text = "Modo de trabajo")
         })
     }) { contentPadding ->
         Column(
@@ -121,7 +121,7 @@ fun AuthA11yPage() {
                     modifier = Modifier
                         .padding(horizontal = cardHorizontalPadding)
                         .padding(start = 4.dp),
-                    text = "基础",
+                    text = "Básico",
                     style = MaterialTheme.typography.titleSmall
                 )
                 TextListItem(
@@ -130,8 +130,8 @@ fun AuthA11yPage() {
                         .padding(start = 8.dp, top = 4.dp),
                     style = MaterialTheme.typography.bodyMedium,
                     list = listOf(
-                        "授予「无障碍权限」",
-                        "无障碍关闭后需重新授权"
+                        "Otorgar «Permiso de accesibilidad»",
+                        "Se requiere reautorización tras desactivar la accesibilidad"
                     ),
                 )
                 AnimatedBooleanContent(
@@ -141,7 +141,7 @@ fun AuthA11yPage() {
                             modifier = Modifier
                                 .padding(horizontal = cardHorizontalPadding)
                                 .padding(start = 8.dp, top = 4.dp),
-                            text = "已持有「无障碍权限」可继续使用",
+                            text = "Ya se tiene el «Permiso de accesibilidad», puede seguir usándose",
                             style = MaterialTheme.typography.bodySmall,
                         )
                     },
@@ -157,7 +157,7 @@ fun AuthA11yPage() {
                                 onClick = throttle { openA11ySettings() },
                             ) {
                                 Text(
-                                    text = "手动授权",
+                                    text = "Autorización manual",
                                     style = MaterialTheme.typography.bodyLarge,
                                 )
                             }
@@ -169,7 +169,7 @@ fun AuthA11yPage() {
                                         mainVm.navigateWebPage(ShortUrlSet.URL2)
                                     })
                                     .padding(horizontal = 4.dp),
-                                text = "无法开启无障碍?",
+                                text = "¿No se puede activar la accesibilidad?",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.primary,
                             )
@@ -180,7 +180,7 @@ fun AuthA11yPage() {
                     modifier = Modifier
                         .padding(horizontal = cardHorizontalPadding)
                         .padding(start = 4.dp, top = 8.dp),
-                    text = "增强",
+                    text = "Avanzado",
                     style = MaterialTheme.typography.titleSmall,
                 )
                 TextListItem(
@@ -189,8 +189,8 @@ fun AuthA11yPage() {
                         .padding(start = 8.dp, top = 4.dp),
                     style = MaterialTheme.typography.bodyMedium,
                     list = listOf(
-                        "授予「写入安全设置权限」",
-                        "应用可自行控制开关无障碍",
+                        "Otorgar «Permiso de escritura en configuración segura»",
+                        "La aplicación puede controlar el interruptor de accesibilidad por sí misma",
                     ),
                 )
                 AnimatedBooleanContent(
@@ -200,7 +200,7 @@ fun AuthA11yPage() {
                             modifier = Modifier
                                 .padding(horizontal = cardHorizontalPadding)
                                 .padding(start = 8.dp, top = 4.dp),
-                            text = "已持有「写入安全设置权限」 优先使用此项",
+                            text = "Ya se tiene el «Permiso de escritura en configuración segura», se usará con prioridad",
                             style = MaterialTheme.typography.bodySmall,
                         )
                     },
@@ -213,7 +213,7 @@ fun AuthA11yPage() {
                             ShizukuAuthButton()
                             TextButton(onClick = { vm.showCopyDlgFlow.value = true }) {
                                 Text(
-                                    text = "命令授权",
+                                    text = "Autorizar por comando",
                                     style = MaterialTheme.typography.bodyLarge,
                                 )
                             }
@@ -225,16 +225,16 @@ fun AuthA11yPage() {
                         .padding(horizontal = cardHorizontalPadding),
                     onClick = throttle {
                         if (!writeSecureSettings) {
-                            toast("请先授予「${writeSecureSettingsState.name}」")
+                            toast("Primero otorga el «${writeSecureSettingsState.name}»")
                         }
                         mainVm.dialogFlow.updateDialogOptions(
-                            title = "无感保活",
-                            text = "添加通知栏快捷开关\n\n1. 下拉通知栏至「快捷开关」标界面\n2. 找到名称为 ${META.appName} 的快捷开关\n3. 添加此开关到通知面板 \n\n只要此快捷开关在通知面板可见\n无论是系统杀后台还是自身崩溃\n简单下拉打开通知即可重启"
+                            title = "Mantenimiento en segundo plano",
+                            text = "Agregar acceso directo al panel de notificaciones\n\n1. Despliega el panel de notificaciones hasta la sección de «Accesos directos»\n2. Busca el acceso directo con el nombre ${META.appName}\n3. Agrega este acceso al panel de notificaciones\n\nMientras este acceso directo sea visible en el panel de notificaciones\nsin importar si el sistema cierra la app o si falla por sí misma\nbasta con desplegar las notificaciones para reiniciarla"
                         )
                     }
                 ) {
                     Text(
-                        text = "无感保活",
+                        text = "Mantenimiento en segundo plano",
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
@@ -268,10 +268,10 @@ fun AuthA11yPage() {
                         .padding(start = 8.dp),
                     style = MaterialTheme.typography.bodyMedium,
                     list = listOf(
-                        "自动化驱动的无障碍",
-                        "不会导致界面显示异常",
-                        "不会被其它应用检测为无障碍",
-                        "部分应用仍需切换至无障碍模式",
+                        "Accesibilidad impulsada por automatización",
+                        "No provoca anomalías en la visualización de la interfaz",
+                        "No es detectada como accesibilidad por otras aplicaciones",
+                        "Algunas aplicaciones aún requieren cambiar al modo de accesibilidad",
                     ),
                 )
                 AnimatedBooleanContent(
@@ -281,7 +281,7 @@ fun AuthA11yPage() {
                             modifier = Modifier
                                 .padding(horizontal = cardHorizontalPadding)
                                 .padding(start = 8.dp, top = 8.dp),
-                            text = "已连接 Shizuku 服务，可继续使用",
+                            text = "Servicio Shizuku conectado, puede seguir usándose",
                             style = MaterialTheme.typography.bodySmall,
                         )
                     },
@@ -300,7 +300,7 @@ fun AuthA11yPage() {
                     },
                 ) {
                     Text(
-                        text = "局部无障碍",
+                        text = "Accesibilidad local",
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }
@@ -330,14 +330,14 @@ private fun ShizukuAuthButton(
         onClick = throttle(vm.viewModelScope.launchAsFn(Dispatchers.IO) {
             mainVm.guardShizukuContext()
             if (writeSecureSettingsState.value) {
-                toast("授权成功")
+                toast("Autorización exitosa")
                 updateEnableAutomator(true)
                 fixRestartAutomatorService()
             }
         })
     ) {
         Text(
-            text = "Shizuku 授权",
+            text = "Autorizar con Shizuku",
             style = MaterialTheme.typography.bodyLarge,
         )
     }

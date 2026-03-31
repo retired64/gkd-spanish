@@ -90,7 +90,7 @@ fun ActivityLogPage() {
             },
             title = {
                 Text(
-                    text = "界面日志",
+                    text = "Registro de pantallas",
                     modifier = Modifier.noRippleClickable { resetKey.intValue++ },
                 )
             },
@@ -100,12 +100,12 @@ fun ActivityLogPage() {
                         imageVector = PerfIcon.Delete,
                         onClick = throttle(fn = vm.viewModelScope.launchAsFn {
                             mainVm.dialogFlow.waitResult(
-                                title = "删除日志",
-                                text = "确定删除所有界面日志?",
+                                title = "Eliminar registro",
+                                text = "¿Confirmar eliminación de todos los registros de pantalla?",
                                 error = true,
                             )
                             DbSet.activityLogDao.deleteAll()
-                            toast("删除成功")
+                            toast("Eliminado correctamente")
                         })
                     )
                 }
@@ -131,7 +131,7 @@ fun ActivityLogPage() {
             item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                 Spacer(modifier = Modifier.height(EmptyHeight))
                 if (logCount == 0 && list.loadState.refresh !is LoadState.Loading) {
-                    EmptyText(text = "暂无数据")
+                    EmptyText(text = "Sin datos")
                 }
             }
         }

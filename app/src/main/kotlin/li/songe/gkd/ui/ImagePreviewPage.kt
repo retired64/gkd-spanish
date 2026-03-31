@@ -230,7 +230,7 @@ private fun UriImage(uri: String) {
             ) {
                 Text(
                     modifier = Modifier.clickable(onClick = throttle { painter.restart() }),
-                    text = "加载失败, 点击重试",
+                    text = "Error al cargar, toca para reintentar",
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium
                 )

@@ -55,15 +55,15 @@ fun SlowGroupPage() {
                         mainVm.popPage()
                     })
                 },
-                title = { Text(text = "缓慢查询") },
+                title = { Text(text = "Consultas lentas") },
                 actions = {
                     PerfIconButton(imageVector = PerfIcon.Info, onClick = throttle {
                         mainVm.dialogFlow.updateDialogOptions(
-                            title = "缓慢查询",
+                            title = "Consultas lentas",
                             text = arrayOf(
-                                "任意单个规则同时满足以下 3 个条件即判定为缓慢查询",
-                                "1. 选择器右侧无法快速查询且不是主动查询, 或内部使用<<且无法快速查询\n2. preKeys 为空\n3. matchTime 为空或大于 10s",
-                                "缓慢查询可能导致触发缓慢或更多耗电, 一些可能优化的建议操作\n1. 降低选择器获取新节点次数\n2. 降低或限制规则查询时间或次数"
+                                "Una regla individual se considera consulta lenta si cumple simultáneamente las siguientes 3 condiciones",
+                                "1. El lado derecho del selector no puede consultarse rápidamente y no es una consulta activa, o usa << internamente y no puede consultarse rápidamente\n2. preKeys está vacío\n3. matchTime está vacío o es mayor a 10s",
+                                "Las consultas lentas pueden provocar activaciones lentas o mayor consumo de batería. Algunas sugerencias de optimización:\n1. Reducir el número de veces que el selector obtiene nuevos nodos\n2. Reducir o limitar el tiempo o número de consultas de la regla"
                             ).joinToString("\n\n"),
                         )
                     })
@@ -90,7 +90,7 @@ fun SlowGroupPage() {
                         })
                         .itemPadding(),
                     title = group.name,
-                    desc = "${rule.rawSubs.name}/全局规则"
+                    desc = "${rule.rawSubs.name}/Regla global"
                 )
             }
             items(
@@ -110,13 +110,13 @@ fun SlowGroupPage() {
                         })
                         .itemPadding(),
                     title = group.name,
-                    desc = "${rule.rawSubs.name}/应用规则/${appInfoCache[rule.app.id]?.name ?: rule.app.name ?: rule.app.id}"
+                    desc = "${rule.rawSubs.name}/Regla de aplicación/${appInfoCache[rule.app.id]?.name ?: rule.app.name ?: rule.app.id}"
                 )
             }
             item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                 Spacer(modifier = Modifier.height(EmptyHeight))
                 if (ruleSummary.slowGroupCount == 0) {
-                    EmptyText(text = "暂无规则")
+                    EmptyText(text = "Sin reglas")
                 }
             }
         }

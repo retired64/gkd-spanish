@@ -97,7 +97,7 @@ fun A11yEventLogPage() {
             },
             title = {
                 Text(
-                    text = "事件日志",
+                    text = "Registro de eventos",
                     modifier = Modifier.noRippleClickable { vm.resetKey.intValue++ },
                 )
             },
@@ -107,12 +107,12 @@ fun A11yEventLogPage() {
                         imageVector = PerfIcon.Delete,
                         onClick = throttle(fn = vm.viewModelScope.launchAsFn {
                             mainVm.dialogFlow.waitResult(
-                                title = "删除日志",
-                                text = "确定删除所有事件日志?",
+                                title = "Eliminar registro",
+                                text = "¿Eliminar todos los registros de eventos?",
                                 error = true,
                             )
                             DbSet.a11yEventLogDao.deleteAll()
-                            toast("删除成功")
+                            toast("Eliminado correctamente")
                         })
                     )
                 }
@@ -144,7 +144,7 @@ fun A11yEventLogPage() {
                 item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                     Spacer(modifier = Modifier.height(EmptyHeight))
                     if (logCount == 0 && list.loadState.refresh !is LoadState.Loading) {
-                        EmptyText(text = "暂无数据")
+                        EmptyText(text = "Sin datos")
                     }
                 }
             }
@@ -170,7 +170,7 @@ fun A11yEventLogPage() {
         }
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            title = { Text(text = "事件详情") },
+            title = { Text(text = "Detalles del evento") },
             text = {
                 val textModifier = Modifier
                     .background(
@@ -179,9 +179,9 @@ fun A11yEventLogPage() {
                     )
                     .padding(horizontal = 4.dp)
                 Column {
-                    Text(text = "类型: " + if (eventLog.isStateChanged) "状态变化" else "内容变化")
+                    Text(text = "Tipo: " + if (eventLog.isStateChanged) "Cambio de estado" else "Cambio de contenido")
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text(text = "应用ID")
+                    Text(text = "ID de aplicación")
                     Row {
                         Text(
                             text = eventLog.appId,
@@ -193,7 +193,7 @@ fun A11yEventLogPage() {
                         })
                     }
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text(text = "事件数据")
+                    Text(text = "Datos del evento")
                     Box(
                         modifier = Modifier.fillMaxWidth()
                     ) {
@@ -226,7 +226,7 @@ fun A11yEventLogPage() {
                                 "[${key}=${v}]"
                             }
                         }
-                        Text(text = "特征选择器")
+                        Text(text = "Selector característico")
                         Row(
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -244,7 +244,7 @@ fun A11yEventLogPage() {
             },
             confirmButton = {
                 TextButton(onClick = onDismissRequest) {
-                    Text(text = "关闭")
+                    Text(text = "Cerrar")
                 }
             },
         )
@@ -328,7 +328,7 @@ fun EventLogCard(eventLog: A11yEventLog, modifier: Modifier = Modifier) {
                             square = false
                         ),
                     )
-                    // 如果祖先容器有设置了 height(IntrinsicSize.Min) 会导致 FlowRow 不会自动换行
+                    // Si un contenedor ancestro tiene height(IntrinsicSize.Min), FlowRow no hará salto de línea automático
                     FlowRow(
                         modifier = Modifier.weight(1f),
                         horizontalArrangement = Arrangement.spacedBy(2.dp),

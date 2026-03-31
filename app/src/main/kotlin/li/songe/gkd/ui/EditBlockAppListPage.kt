@@ -37,8 +37,8 @@ fun EditBlockAppListPage() {
         if (vm.getChangedSet() != null) {
             context.justHideSoftInput()
             mainVm.dialogFlow.waitResult(
-                title = "提示",
-                text = "当前内容未保存，是否放弃编辑？",
+                title = "Aviso",
+                text = "El contenido actual no está guardado, ¿deseas descartar los cambios?",
             )
         } else {
             context.hideSoftInput()
@@ -55,7 +55,7 @@ fun EditBlockAppListPage() {
                     onClick = onBack,
                 )
             },
-            title = { Text(text = "应用白名单") },
+            title = { Text(text = "Lista blanca de aplicaciones") },
             actions = {
                 PerfIconButton(
                     imageVector = PerfIcon.Save,
@@ -63,9 +63,9 @@ fun EditBlockAppListPage() {
                         val newSet = vm.getChangedSet()
                         if (newSet != null) {
                             blockMatchAppListFlow.value = newSet
-                            toast("更新成功")
+                            toast("Actualizado correctamente")
                         } else {
-                            toast("未修改")
+                            toast("Sin modificaciones")
                         }
                         context.hideSoftInput()
                         mainVm.popPage()

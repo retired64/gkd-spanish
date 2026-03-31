@@ -108,7 +108,7 @@ fun SnapshotPage() {
             },
             title = {
                 Text(
-                    text = "快照记录",
+                    text = "Registros de capturas",
                     modifier = Modifier.noRippleClickable { resetKey.intValue++ },
                 )
             },
@@ -118,8 +118,8 @@ fun SnapshotPage() {
                         imageVector = PerfIcon.Delete,
                         onClick = throttle(fn = vm.viewModelScope.launchAsFn(Dispatchers.IO) {
                             mainVm.dialogFlow.waitResult(
-                                title = "删除快照",
-                                text = "确定删除所有快照记录?",
+                                title = "Eliminar capturas",
+                                text = "¿Confirmar eliminación de todos los registros de capturas?",
                                 error = true,
                             )
                             snapshots.forEach { s ->
@@ -150,7 +150,7 @@ fun SnapshotPage() {
                 item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                     Spacer(modifier = Modifier.height(EmptyHeight))
                     if (snapshots.isEmpty() && !firstLoading) {
-                        EmptyText(text = "暂无数据")
+                        EmptyText(text = "Sin datos")
                     }
                 }
             }
@@ -169,7 +169,7 @@ fun SnapshotPage() {
                     .fillMaxWidth()
                     .padding(16.dp)
                 Text(
-                    text = "查看", modifier = Modifier
+                    text = "Ver", modifier = Modifier
                         .clickable(onClick = throttle(fn = vm.viewModelScope.launchAsFn {
                             selectedSnapshot = null
                             mainVm.navigatePage(
@@ -184,7 +184,7 @@ fun SnapshotPage() {
                 )
                 HorizontalDivider()
                 Text(
-                    text = "分享到其他应用",
+                    text = "Compartir con otras aplicaciones",
                     modifier = Modifier
                         .clickable(onClick = throttle(fn = vm.viewModelScope.launchAsFn {
                             selectedSnapshot = null
@@ -193,17 +193,17 @@ fun SnapshotPage() {
                                 snapshotVal.appId,
                                 snapshotVal.activityId
                             )
-                            context.shareFile(zipFile, "分享快照文件")
+                            context.shareFile(zipFile, "Compartir archivo de captura")
                         }))
                         .then(modifier)
                 )
                 HorizontalDivider()
                 Text(
-                    text = "保存到下载",
+                    text = "Guardar en descargas",
                     modifier = Modifier
                         .clickable(onClick = throttle(fn = vm.viewModelScope.launchAsFn(Dispatchers.IO) {
                             selectedSnapshot = null
-                            toast("正在保存...")
+                            toast("Guardando...")
                             val zipFile = SnapshotExt.snapshotZipFile(
                                 snapshotVal.id,
                                 snapshotVal.appId,
@@ -216,7 +216,7 @@ fun SnapshotPage() {
                 HorizontalDivider()
                 if (snapshotVal.githubAssetId != null) {
                     Text(
-                        text = "复制链接", modifier = Modifier
+                        text = "Copiar enlace", modifier = Modifier
                             .clickable(onClick = throttle {
                                 selectedSnapshot = null
                                 copyText(IMPORT_SHORT_URL + snapshotVal.githubAssetId)
@@ -225,7 +225,7 @@ fun SnapshotPage() {
                     )
                 } else {
                     Text(
-                        text = "生成链接(需科学上网)", modifier = Modifier
+                        text = "Generar enlace (requiere VPN)", modifier = Modifier
                             .clickable(onClick = throttle {
                                 selectedSnapshot = null
                                 mainVm.uploadOptions.startTask(
@@ -242,20 +242,20 @@ fun SnapshotPage() {
                 HorizontalDivider()
 
                 Text(
-                    text = "保存截图到相册",
+                    text = "Guardar captura en galería",
                     modifier = Modifier
                         .clickable(onClick = throttle(fn = vm.viewModelScope.launchAsFn(Dispatchers.IO) {
-                            toast("正在保存...")
+                            toast("Guardando...")
                             selectedSnapshot = null
                             requiredPermission(context, canWriteExternalStorage)
                             ImageUtils.save2Album(BitmapFactory.decodeFile(snapshotVal.screenshotFile.absolutePath))
-                            toast("保存成功")
+                            toast("Guardado correctamente")
                         }))
                         .then(modifier)
                 )
                 HorizontalDivider()
                 Text(
-                    text = "替换截图(去除隐私)",
+                    text = "Reemplazar captura (eliminar datos privados)",
                     modifier = Modifier
                         .clickable(onClick = throttle(fn = vm.viewModelScope.launchAsFn(Dispatchers.IO) {
                             val uri = context.pickContentLauncher.launchForImageResult()
@@ -267,32 +267,32 @@ fun SnapshotPage() {
                             if (oldBitmap.width == newBitmap.width && oldBitmap.height == newBitmap.height) {
                                 snapshotVal.screenshotFile.writeBytes(newBytes)
                                 if (snapshotVal.githubAssetId != null) {
-                                    // 当本地快照变更时, 移除快照链接
+                                    // Cuando la captura local cambia, se elimina el enlace de la captura
                                     DbSet.snapshotDao.deleteGithubAssetId(snapshotVal.id)
                                 }
-                                toast("替换成功")
+                                toast("Reemplazado correctamente")
                                 selectedSnapshot = null
                             } else {
-                                toast("截图尺寸不一致, 无法替换")
+                                toast("Las dimensiones de la captura no coinciden, no se puede reemplazar")
                             }
                         }))
                         .then(modifier)
                 )
                 HorizontalDivider()
                 Text(
-                    text = "删除", modifier = Modifier
+                    text = "Eliminar", modifier = Modifier
                         .clickable(onClick = throttle(fn = vm.viewModelScope.launchAsFn {
                             selectedSnapshot = null
                             mainVm.dialogFlow.waitResult(
-                                title = "删除快照",
-                                text = "确定删除当前快照吗?",
+                                title = "Eliminar captura",
+                                text = "¿Confirmar eliminación de la captura actual?",
                                 error = true,
                             )
                             DbSet.snapshotDao.delete(snapshotVal)
                             withContext(Dispatchers.IO) {
                                 SnapshotExt.removeSnapshot(snapshotVal.id)
                             }
-                            toast("删除成功")
+                            toast("Eliminado correctamente")
                         }))
                         .then(modifier), color = colorScheme.error
                 )
