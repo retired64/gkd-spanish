@@ -190,11 +190,7 @@ fun useAppListPage(): ScaffoldExt {
                             onClick = throttle {
                                 mainVm.dialogFlow.updateDialogOptions(
                                     title = "Permiso anómalo",
-                                    text = {
-                                        Text(
-                                            text = "Se detectó que se concedió «${canQueryPkgState.name}» pero la cantidad de apps obtenidas es escasa. Se usó otro método pero puede estar incompleto. Desliza hacia abajo en la lista para actualizar. Si no se resuelve, intenta revocar y volver a conceder el permiso, o reinicia el dispositivo"
-                                        )
-                                    },
+                                    text = "Se detectó que se concedió «${canQueryPkgState.name}» pero la cantidad de apps obtenidas es escasa. Se usó otro método pero puede estar incompleto. Desliza hacia abajo en la lista para actualizar. Si no se resuelve, intenta revocar y volver a conceder el permiso, o reinicia el dispositivo"
                                 )
                             }
                         )
