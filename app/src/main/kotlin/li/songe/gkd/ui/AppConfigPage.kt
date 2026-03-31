@@ -216,7 +216,7 @@ fun AppConfigPage(route: AppConfigRoute) {
                             if (isSelectedMode) {
                                 DropdownMenuItem(
                                     text = {
-                                        Text(text = "全选")
+                                        Text(text = "Seleccionar todo")
                                     },
                                     onClick = {
                                         expanded = false
@@ -225,7 +225,7 @@ fun AppConfigPage(route: AppConfigRoute) {
                                 )
                                 DropdownMenuItem(
                                     text = {
-                                        Text(text = "反选")
+                                        Text(text = "Invertir selección")
                                     },
                                     onClick = {
                                         expanded = false
@@ -233,7 +233,7 @@ fun AppConfigPage(route: AppConfigRoute) {
                                     }
                                 )
                             } else {
-                                MenuGroupCard(inTop = true, title = "排序") {
+                                MenuGroupCard(inTop = true, title = "Ordenar") {
                                     val handleItem: (RuleSortOption) -> Unit = throttle { v ->
                                         storeFlow.update { s -> s.copy(appRuleSort = v.value) }
                                     }
@@ -266,7 +266,7 @@ fun AppConfigPage(route: AppConfigRoute) {
                     )
                 },
                 imageVector = PerfIcon.Add,
-                contentDescription = "添加规则"
+                contentDescription = "Añadir regla"
             )
         },
     ) { contentPadding ->
@@ -371,7 +371,7 @@ fun AppConfigPage(route: AppConfigRoute) {
             item(ListPlaceholder.KEY, ListPlaceholder.TYPE) {
                 Spacer(modifier = Modifier.height(EmptyHeight))
                 if (groupSize == 0 && !firstLoading) {
-                    EmptyText(text = "暂无规则")
+                    EmptyText(text = "Sin reglas")
                 }
             }
         }

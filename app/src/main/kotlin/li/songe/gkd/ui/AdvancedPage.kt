@@ -102,13 +102,13 @@ fun AdvancedPage() {
     var showEditPortDlg by vm.showEditPortDlgFlow.asMutableState()
     if (showEditPortDlg) {
         val portRange = remember { 1000 to 65535 }
-        val placeholderText = remember { "请输入 ${portRange.first}-${portRange.second} 的整数" }
+        val placeholderText = remember { "Introduce un número entre ${portRange.first} y ${portRange.second}" }
         var value by remember {
             mutableStateOf(store.httpServerPort.toString())
         }
         AlertDialog(
             properties = DialogProperties(dismissOnClickOutside = false),
-            title = { Text(text = "服务端口") },
+            title = { Text(text = "Puerto de servicio") },
             text = {
                 OutlinedTextField(
                     value = value,
@@ -149,19 +149,19 @@ fun AdvancedPage() {
                             storeFlow.value = store.copy(
                                 httpServerPort = newPort
                             )
-                            toast("更新成功")
+                            toast("Actualizado correctamente")
                         }
                     }
                 ) {
                     Text(
-                        text = "确认", modifier = Modifier
+                        text = "Aceptar", modifier = Modifier
                     )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showEditPortDlg = false }) {
                     Text(
-                        text = "取消"
+                        text = "Cancelar"
                     )
                 }
             }
@@ -172,7 +172,7 @@ fun AdvancedPage() {
     if (showShizukuState) {
         val onDismissRequest = { showShizukuState = false }
         AlertDialog(
-            title = { Text(text = "授权状态") },
+            title = { Text(text = "Estado de autorización") },
             text = {
                 val states = shizukuContextFlow.collectAsState().value.states
                 Column {
@@ -187,7 +187,7 @@ fun AdvancedPage() {
             onDismissRequest = onDismissRequest,
             confirmButton = {
                 TextButton(onClick = onDismissRequest) {
-                    Text(text = "我知道了")
+                    Text(text = "Entendido")
                 }
             },
         )
@@ -205,7 +205,7 @@ fun AdvancedPage() {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(text = "截屏快照")
+                    Text(text = "Captura de pantalla rápida")
                     PerfIconButton(
                         imageVector = PerfIcon.HelpOutline,
                         onClick = throttle {
@@ -220,9 +220,9 @@ fun AdvancedPage() {
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     CustomOutlinedTextField(
-                        label = { Text("应用ID") },
+                        label = { Text("ID de aplicación") },
                         value = appIdValue,
-                        placeholder = { Text(text = "请输入目标应用ID") },
+                        placeholder = { Text(text = "Introduce el ID de la app objetivo") },
                         onValueChange = {
                             appIdValue = it
                         },
@@ -231,9 +231,9 @@ fun AdvancedPage() {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     CustomOutlinedTextField(
-                        label = { Text("特征事件选择器") },
+                        label = { Text("Selector de evento característico") },
                         value = eventSelectorValue,
-                        placeholder = { Text(text = "请输入特征事件选择器") },
+                        placeholder = { Text(text = "Introduce el selector de evento característico") },
                         onValueChange = {
                             eventSelectorValue = it
                         },
@@ -254,13 +254,13 @@ fun AdvancedPage() {
                         return@throttle
                     }
                     if (appIdValue.isNotEmpty() && !appInfoMapFlow.value.contains(appIdValue)) {
-                        toast("无效应用ID")
+                        toast("ID de aplicación inválido")
                         return@throttle
                     }
                     if (eventSelectorValue.isNotEmpty()) {
                         val s = Selector.parseOrNull(eventSelectorValue)
                         if (s == null) {
-                            toast("无效事件选择器")
+                            toast("Selector de evento inválido")
                             return@throttle
                         }
                     }
@@ -270,18 +270,18 @@ fun AdvancedPage() {
                             screenshotEventSelector = eventSelectorValue,
                         )
                     }
-                    toast("更新成功")
+                    toast("Actualizado correctamente")
                     showCaptureScreenshotDlg = false
                 }) {
                     Text(
-                        text = "确认",
+                        text = "Aceptar",
                     )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showCaptureScreenshotDlg = false }) {
                     Text(
-                        text = "取消",
+                        text = "Cancelar",
                     )
                 }
             })
@@ -298,7 +298,7 @@ fun AdvancedPage() {
                         mainVm.popPage()
                     })
                 },
-                title = { Text(text = "高级设置") },
+                title = { Text(text = "Ajustes avanzados") },
             )
         }
     ) { contentPadding ->
@@ -323,29 +323,29 @@ fun AdvancedPage() {
                 PerfIcon(
                     modifier = Modifier
                         .clip(MaterialTheme.shapes.extraSmall)
-                        .clickable(onClickLabel = "打开 Shizuku 状态弹窗", onClick = throttle {
+                        .clickable(onClickLabel = "Abrir estado de Shizuku", onClick = throttle {
                             showShizukuState = true
                         })
                         .iconTextSize(textStyle = MaterialTheme.typography.titleSmall),
                     imageVector = PerfIcon.Api,
                     tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = "Shizuku 状态",
+                    contentDescription = "Estado de Shizuku",
                 )
             }
             val shizukuGranted by shizukuGrantedState.stateFlow.collectAsState()
             AnimatedVisibility(store.enableShizuku && !shizukuGranted) {
                 AuthCard(
-                    title = "未授权",
-                    subtitle = "点击授权以优化体验",
+                    title = "Sin autorización",
+                    subtitle = "Toca para autorizar y mejorar la experiencia",
                     onAuthClick = {
                         mainVm.requestShizuku()
                     }
                 )
             }
             TextSwitch(
-                title = "启用优化",
-                subtitle = "提升权限优化体验",
-                suffix = "了解更多",
+                title = "Activar optimización",
+                subtitle = "Aumenta permisos para mejorar la experiencia",
+                suffix = "Saber más",
                 suffixUnderline = true,
                 onSuffixClick = { mainVm.navigateWebPage(ShortUrlSet.URL14) },
                 checked = store.enableShizuku,
@@ -379,13 +379,13 @@ fun AdvancedPage() {
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "HTTP服务",
+                        text = "Servicio HTTP",
                         style = MaterialTheme.typography.bodyLarge,
                     )
                     CompositionLocalProvider(
                         LocalTextStyle provides MaterialTheme.typography.bodyMedium
                     ) {
-                        Text(text = if (httpServerRunning) "点击链接打开即可自动连接" else "在浏览器下连接调试工具")
+                        Text(text = if (httpServerRunning) "Toca el enlace para conectar automáticamente" else "Conéctate con la herramienta de depuración desde el navegador")
                         AnimatedVisibility(httpServerRunning) {
                             Column {
                                 Row {
@@ -399,7 +399,7 @@ fun AdvancedPage() {
                                         }),
                                     )
                                     Spacer(modifier = Modifier.width(2.dp))
-                                    Text(text = "仅本设备可访问")
+                                    Text(text = "Solo accesible desde este dispositivo")
                                 }
                                 localNetworkIps.forEach { host ->
                                     val lanUrl = "http://${host}:${store.httpServerPort}"
@@ -431,18 +431,18 @@ fun AdvancedPage() {
             }
 
             SettingItem(
-                title = "服务端口",
+                title = "Puerto de servicio",
                 subtitle = store.httpServerPort.toString(),
                 imageVector = PerfIcon.Edit,
-                onClickLabel = "编辑服务端口",
+                onClickLabel = "Editar puerto de servicio",
                 onClick = {
                     showEditPortDlg = true
                 }
             )
 
             TextSwitch(
-                title = "清除订阅",
-                subtitle = "关闭服务时删除内存订阅",
+                title = "Limpiar suscripciones",
+                subtitle = "Eliminar suscripciones en memoria al detener el servicio",
                 checked = store.autoClearMemorySubs,
                 onCheckedChange = {
                     storeFlow.update {
@@ -452,15 +452,15 @@ fun AdvancedPage() {
             )
 
             Text(
-                text = "快照",
+                text = "Instantánea",
                 modifier = Modifier.titleItemPadding(),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary,
             )
 
             SettingItem(
-                title = "快照记录",
-                subtitle = "应用界面节点信息及截图",
+                title = "Registro de instantáneas",
+                subtitle = "Información de nodos e imágenes de la interfaz",
                 onClick = {
                     mainVm.navigatePage(SnapshotPageRoute)
                 }
@@ -469,8 +469,8 @@ fun AdvancedPage() {
             if (!AndroidTarget.R) {
                 val screenshotRunning by ScreenshotService.isRunning.collectAsState()
                 TextSwitch(
-                    title = "截屏服务",
-                    subtitle = "生成快照需要获取屏幕截图",
+                    title = "Servicio de captura",
+                    subtitle = "Requiere captura de pantalla para generar instantáneas",
                     checked = screenshotRunning,
                     onCheckedChange = vm.viewModelScope.launchAsFn<Boolean> {
                         if (it) {
@@ -490,8 +490,8 @@ fun AdvancedPage() {
             }
 
             TextSwitch(
-                title = "快照按钮",
-                subtitle = "显示按钮点击保存快照",
+                title = "Botón de instantánea",
+                subtitle = "Muestra un botón para guardar instantáneas",
                 checked = ButtonService.isRunning.collectAsState().value,
                 onCheckedChange = vm.viewModelScope.launchAsFn<Boolean> {
                     if (it) {
@@ -506,8 +506,8 @@ fun AdvancedPage() {
             )
 
             TextSwitch(
-                title = "音量快照",
-                subtitle = "音量变化时保存快照",
+                title = "Instantánea por volumen",
+                subtitle = "Guardar instantánea al cambiar el volumen",
                 checked = store.captureVolumeChange,
                 onCheckedChange = {
                     storeFlow.value = store.copy(
@@ -517,19 +517,19 @@ fun AdvancedPage() {
             )
 
             TextSwitch(
-                title = "截屏快照",
-                subtitle = "截屏时保存快照",
+                title = "Instantánea por captura",
+                subtitle = "Guardar instantánea al hacer captura de pantalla",
                 checked = store.captureScreenshot,
                 suffixIcon = {
                     PerfCustomIconButton(
                         size = 32.dp,
                         iconSize = 20.dp,
-                        onClickLabel = "打开配置截屏快照弹窗",
+                        onClickLabel = "Abrir configuración de instantánea por captura",
                         onClick = throttle {
                             showCaptureScreenshotDlg = true
                         },
                         id = R.drawable.ic_page_info,
-                        contentDescription = "截屏快照设置",
+                        contentDescription = "Configuración de instantánea por captura",
                     )
                 },
                 onCheckedChange = {
@@ -537,14 +537,14 @@ fun AdvancedPage() {
                         captureScreenshot = it
                     )
                     if (it && store.screenshotTargetAppId.isEmpty() || store.screenshotEventSelector.isEmpty()) {
-                        toast("请配置目标应用和特征事件选择器")
+                        toast("Configura la app objetivo y el selector de evento característico")
                     }
                 }
             )
 
             TextSwitch(
-                title = "隐藏状态栏",
-                subtitle = "隐藏快照截图状态栏",
+                title = "Ocultar barra de estado",
+                subtitle = "Ocultar la barra de estado en las capturas de instantánea",
                 checked = store.hideSnapshotStatusBar,
                 onCheckedChange = {
                     storeFlow.value = store.copy(
@@ -554,8 +554,8 @@ fun AdvancedPage() {
             )
 
             TextSwitch(
-                title = "保存提示",
-                subtitle = "提示「正在保存快照」",
+                title = "Aviso de guardado",
+                subtitle = "Mostrar «Guardando instantánea»",
                 checked = store.showSaveSnapshotToast,
                 onCheckedChange = {
                     storeFlow.value = store.copy(
@@ -566,8 +566,8 @@ fun AdvancedPage() {
 
             SettingItem(
                 title = "Github Cookie",
-                subtitle = "生成快照/日志链接",
-                suffix = "获取教程",
+                subtitle = "Generar enlace de instantánea/registro",
+                suffix = "Ver tutorial",
                 suffixUnderline = true,
                 onSuffixClick = {
                     mainVm.navigateWebPage(ShortUrlSet.URL1)
@@ -579,21 +579,21 @@ fun AdvancedPage() {
             )
 
             Text(
-                text = "日志",
+                text = "Registro",
                 modifier = Modifier.titleItemPadding(),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary,
             )
             SettingItem(
-                title = "界面日志",
-                subtitle = "界面切换日志",
+                title = "Registro de pantallas",
+                subtitle = "Registro de cambios de pantalla",
                 onClick = {
                     mainVm.navigatePage(ActivityLogRoute)
                 }
             )
             TextSwitch(
-                title = "界面服务",
-                subtitle = "显示当前界面信息",
+                title = "Servicio de pantalla",
+                subtitle = "Muestra información de la pantalla actual",
                 checked = ActivityService.isRunning.collectAsState().value,
                 onCheckedChange = vm.viewModelScope.launchAsFn<Boolean> {
                     if (it) {
@@ -607,15 +607,15 @@ fun AdvancedPage() {
                 }
             )
             SettingItem(
-                title = "事件日志",
-                subtitle = "无障碍事件日志",
+                title = "Registro de eventos",
+                subtitle = "Registro de eventos de accesibilidad",
                 onClick = {
                     mainVm.navigatePage(A11yEventLogRoute)
                 }
             )
             TextSwitch(
-                title = "事件服务",
-                subtitle = "显示无障碍事件",
+                title = "Servicio de eventos",
+                subtitle = "Muestra eventos de accesibilidad",
                 checked = EventService.isRunning.collectAsState().value,
                 onCheckedChange = vm.viewModelScope.launchAsFn<Boolean> {
                     if (it) {
