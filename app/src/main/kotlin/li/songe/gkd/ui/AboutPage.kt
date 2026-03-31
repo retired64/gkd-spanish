@@ -102,25 +102,25 @@ fun AboutPage() {
     if (showInfoDlg) {
         AlertDialog(
             onDismissRequest = { showInfoDlg = false },
-            title = { Text(text = "版本信息") },
+            title = { Text(text = "Información de versión") },
             text = {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Column {
-                        Text(text = "构建渠道")
+                        Text(text = "Canal de compilación")
                         Text(text = META.channel)
                     }
                     Column {
-                        Text(text = "版本代码")
+                        Text(text = "Código de versión")
                         Text(text = META.versionCode.toString())
                     }
                     Column {
-                        Text(text = "版本名称")
+                        Text(text = "Nombre de versión")
                         Text(text = META.versionName)
                     }
                     Column {
-                        Text(text = "代码记录")
+                        Text(text = "Registro de código")
                         Text(
                             modifier = Modifier.clickable { openUri(META.commitUrl) },
                             text = META.tagName ?: META.commitId.substring(0, 16),
@@ -129,7 +129,7 @@ fun AboutPage() {
                         )
                     }
                     Column {
-                        Text(text = "提交时间")
+                        Text(text = "Fecha de commit")
                         Text(text = META.commitTime.format("yyyy-MM-dd HH:mm:ss ZZ"))
                     }
                 }
@@ -138,7 +138,7 @@ fun AboutPage() {
                 TextButton(onClick = {
                     showInfoDlg = false
                 }) {
-                    Text(text = "关闭")
+                    Text(text = "Cerrar")
                 }
             },
         )
@@ -158,7 +158,7 @@ fun AboutPage() {
                         },
                     )
                 },
-                title = { Text(text = "关于") },
+                title = { Text(text = "Acerca de") },
                 actions = {
                     PerfIconButton(
                         imageVector = PerfIcon.Share,
@@ -185,7 +185,7 @@ fun AboutPage() {
                         .clickable(
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() },
-                            onClick = throttle { toast("你干嘛~ 哎呦~") }
+                            onClick = throttle { toast("¿Qué haces? ¡Ay!") }
                         )
                         .fillMaxWidth(0.33f)
                         .aspectRatio(1f)
@@ -208,7 +208,7 @@ fun AboutPage() {
 
             SettingItem(
                 imageVector = null,
-                title = "开源代码",
+                title = "Código fuente",
                 onClick = {
                     mainVm.openUrl(REPOSITORY_URL)
                 },
@@ -216,7 +216,7 @@ fun AboutPage() {
             if (META.isGkdChannel) {
                 SettingItem(
                     imageVector = null,
-                    title = "捐赠支持",
+                    title = "Donar",
                     onClick = {
                         mainVm.navigateWebPage(ShortUrlSet.URL10)
                     },
@@ -224,21 +224,21 @@ fun AboutPage() {
             }
             SettingItem(
                 imageVector = null,
-                title = "使用协议",
+                title = "Términos de uso",
                 onClick = {
                     mainVm.navigateWebPage(ShortUrlSet.URL12)
                 },
             )
             SettingItem(
                 imageVector = null,
-                title = "隐私政策",
+                title = "Política de privacidad",
                 onClick = {
                     mainVm.navigateWebPage(ShortUrlSet.URL11)
                 },
             )
 
             Text(
-                text = "反馈",
+                text = "Comentarios",
                 modifier = Modifier.titleItemPadding(),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary,
@@ -247,26 +247,26 @@ fun AboutPage() {
                 modifier = Modifier
                     .clickable(onClick = throttle(mainVm.viewModelScope.launchAsFn {
                         mainVm.dialogFlow.waitResult(
-                            title = "反馈须知",
+                            title = "Aviso de comentarios",
                             textContent = {
                                 Text(text = buildAnnotatedString {
                                     val highlightStyle = SpanStyle(
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.primary,
                                     )
-                                    append("感谢您愿意花时间反馈，")
+                                    append("Gracias por tomarte el tiempo de enviarnos tus comentarios. ")
                                     withStyle(style = highlightStyle) {
-                                        append("GKD 默认不携带任何规则，只接受应用本体功能相关的反馈")
+                                        append("GKD no incluye ninguna regla por defecto, solo se aceptan comentarios relacionados con la funcionalidad de la propia app")
                                     }
                                     append("\n\n")
-                                    append("请先判断是不是第三方规则订阅的问题，如果是，您应该向规则提供者反馈，而不是在此处反馈。")
+                                    append("Por favor, comprueba primero si el problema es de una suscripción de reglas de terceros. Si es así, debes reportarlo al proveedor de reglas, no aquí. ")
                                     withStyle(style = highlightStyle) {
-                                        append("如果您已经确信是 GKD 应用本体的问题")
+                                        append("Si ya estás seguro de que el problema es de la propia app GKD")
                                     }
-                                    append("，可点击下方继续反馈")
+                                    append(", puedes continuar haciendo clic abajo")
                                 })
                             },
-                            confirmText = "继续",
+                            confirmText = "Continuar",
                             dismissRequest = true,
                         )
                         mainVm.openUrl(ISSUES_URL)
@@ -275,12 +275,12 @@ fun AboutPage() {
                     .itemPadding()
             ) {
                 Text(
-                    text = "问题反馈",
+                    text = "Reportar problema",
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
             SettingItem(
-                title = "导出日志",
+                title = "Exportar registro",
                 imageVector = PerfIcon.Share,
                 onClick = {
                     mainVm.showShareLogDlgFlow.value = true
@@ -288,21 +288,21 @@ fun AboutPage() {
             )
             if (mainVm.updateStatus != null) {
                 Text(
-                    text = "更新",
+                    text = "Actualizar",
                     modifier = Modifier.titleItemPadding(),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                 )
                 TextMenu(
-                    title = "更新渠道",
+                    title = "Canal de actualización",
                     option = UpdateChannelOption.objects.findOption(store.updateChannel)
                 ) {
                     if (mainVm.updateStatus.checkUpdatingFlow.value) return@TextMenu
                     if (it.value == UpdateChannelOption.Beta.value) {
                         mainVm.viewModelScope.launchTry {
                             mainVm.dialogFlow.waitResult(
-                                title = "版本渠道",
-                                text = "测试版本渠道更新快\n但不稳定可能存在较多BUG\n请谨慎使用",
+                                title = "Canal de versión",
+                                text = "El canal de versión beta se actualiza más rápido\npero es inestable y puede tener más errores\núsalo con precaución",
                             )
                             storeFlow.update { s -> s.copy(updateChannel = it.value) }
                         }
@@ -323,7 +323,7 @@ fun AboutPage() {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "检查更新",
+                        text = "Buscar actualizaciones",
                         style = MaterialTheme.typography.bodyLarge,
                     )
                     RotatingLoadingIcon(loading = mainVm.updateStatus.checkUpdatingFlow.collectAsState().value)
@@ -337,22 +337,22 @@ fun AboutPage() {
         TextListDialog(
             onDismiss = { showShareAppDlg = false },
             textList = listOf(
-                "分享到其他应用" to mainVm.viewModelScope.launchAsFn(Dispatchers.IO) {
+                "Compartir en otra app" to mainVm.viewModelScope.launchAsFn(Dispatchers.IO) {
                     if (!META.isGkdChannel) {
                         mainVm.dialogFlow.waitResult(
-                            title = "分享提示",
+                            title = "Aviso de compartir",
                             textContent = { Text(text = exportPlayTipTemplate()) },
-                            confirmText = "继续",
+                            confirmText = "Continuar",
                         )
                     }
-                    context.shareFile(getShareApkFile(), "分享安装文件")
+                    context.shareFile(getShareApkFile(), "Compartir archivo de instalación")
                 },
-                "保存到下载" to mainVm.viewModelScope.launchAsFn(Dispatchers.IO) {
+                "Guardar en Descargas" to mainVm.viewModelScope.launchAsFn(Dispatchers.IO) {
                     if (!META.isGkdChannel) {
                         mainVm.dialogFlow.waitResult(
-                            title = "保存提示",
+                            title = "Aviso de guardado",
                             textContent = { Text(text = exportPlayTipTemplate()) },
-                            confirmText = "继续",
+                            confirmText = "Continuar",
                         )
                     }
                     context.saveFileToDownloads(getShareApkFile())
@@ -368,7 +368,7 @@ fun AboutPage() {
 @Composable
 private fun exportPlayTipTemplate(): AnnotatedString {
     return buildAnnotatedString {
-        append("当前导出的 APK 文件只能在已安装 Google 框架的设备上才能使用，否则安装打开后会提示报错，")
+        append("El archivo APK exportado solo funciona en dispositivos con Google Play Services instalado, de lo contrario mostrará un error al abrirse. ")
         withLink(
             LinkAnnotation.Url(
                 ShortUrlSet.URL13,
@@ -380,9 +380,9 @@ private fun exportPlayTipTemplate(): AnnotatedString {
                 )
             )
         ) {
-            append("建议点此从官网下载")
+            append("Se recomienda descargarlo desde el sitio oficial")
         }
-        append("，或点击下方继续操作")
+        append(", o haz clic abajo para continuar")
     }
 }
 
